@@ -1,5 +1,21 @@
 #:kivy 2.1.0
 
 <NewsHome>:
-    Label:
-        text : 'Hello to my App'
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+
+            text : push_button.state
+        
+        Button:
+            id: push_button
+            text: f"my state is {self.state}"
+        
+        Label:
+            text : f"{root.label_text}".upper()
+        
+        Button:
+            text: "Click me"
+            on_release: root.doit()
+
