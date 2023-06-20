@@ -1,13 +1,30 @@
 #:kivy 2.1.0
 
 <NewsHome>:
+    label_1: My_label
+     
     BoxLayout:
         orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
 
         Label:
+            id: My_label
+            text : "djlkj"
+            font_size: 25
+            size_hint_y: None
+            height: self.texture_size[1]
 
-            text : push_button.state
-        
+        Button:
+            text: "Click me"
+            on_release: pass
+
+        Button:
+            id: my_button
+            text:root.change_label("zombie")
+
+
         Button:
             id: push_button
             text: f"my state is {self.state}"
@@ -17,5 +34,8 @@
         
         Button:
             text: "Click me"
-            on_release: root.doit()
+            on_release: pass
+
+        TextInput:
+            on_focus: self.insert_text("Focus" if args[1] else "No focus")
 
