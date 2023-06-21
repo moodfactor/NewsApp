@@ -19,7 +19,10 @@ class NewsHome(BoxLayout):
         self.ids.label_test.text = "My callback is called! " + str(dt)
         
     def on_touch_down(self, touch):
-        Clock.schedule_once(self.my_callback, 1)
+        Clock.schedule_interval(self.my_callback, 1/30)
+        if touch.is_double_tap:
+            self.ids.label_test.text = ''
+            Clock.unschedule(self.my_callback)
         return super().on_touch_down(touch)
 
     
