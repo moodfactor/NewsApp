@@ -3,16 +3,17 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.clock import Clock
 from kivy.uix import widget
-from kivy.uix import button
+from kivy.uix import button, label
 
 
-class NewsHome(BoxLayout):
+class NewsHome():
 
     label_text = StringProperty("Hi")
     label_1 = ObjectProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        
        
 
     def state_callback(self, obj, value):        
@@ -20,7 +21,8 @@ class NewsHome(BoxLayout):
         super().state_callback(obj, value)
 
     def on_press_callback(self) -> str:
-        # self.ids.label_test2.text = "press on button"
+        #in .kv Beware to call the function with ()  (ex: on_press_callback())
+        self.ids.label_test2.text = "press on button"
         print("Booooooom")
 
     def change_label(self, value) -> str:
