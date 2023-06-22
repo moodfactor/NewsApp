@@ -2,19 +2,47 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.clock import Clock
-from kivy.uix import widget
+from kivy.uix.widget import Widget
 from kivy.uix import button, label
 
 
-class NewsHome():
+class NewsHome(BoxLayout, Widget):
 
     label_text = StringProperty("Hi")
     label_1 = ObjectProperty()
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        '''
+            To create an event dispatcher with custom events,
+            you need to register the name of the event
+            in the class and then create a method of the same name.
+            The method will be called when the event is dispatched.
+        '''
+        self.register_event_type('on_test')
+        super(NewsHome, self).__init__(**kwargs)
+
+    # custom event fn.
+    def on_test(self, *args):
+        self.ids.label_test2.text = ">>>>>>>>>>>>>>"
+
+    # dispatch event to {on_test}.
+    def do_something(self):
+        # when do_something is called, the 'on_test' event will be
+        # dispatched with the value
+        self.dispatch('on_test')
         
-       
+    
+        
+    def on_swipe(self, value):
+        if self.ids.swipe_button.text == "Click Me":
+            self.ids.swipe_button.text = "Swipe Me"
+        else:
+            self.ids.swipe_button.text = "Click Me"
+
+    def on_press_button(self):
+        self.dispatch('on_swipe', 'on_swipe')
+        
+   
 
     def state_callback(self, obj, value):        
         print("State changed for ", obj, "to ", value)
