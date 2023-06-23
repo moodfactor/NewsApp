@@ -33,10 +33,12 @@ class NewsHome(BoxLayout, Widget):
         self.ids.textinput_label_mirror.text = str(value)
         
     def on_switch_state(self, *args):
+        # update the label text when the switch is active or not
+        # Beware "Switch is OFF" if self.ids.switch.active else "Switch is ON"
         if self.ids.switch.active:
-            self.ids.switch_label_state.text = "Switch is ON"
-        else:
             self.ids.switch_label_state.text = "Switch is OFF"
+        else:
+            self.ids.switch_label_state.text = "Switch is ON"
     
     # custom event fn.
     def on_test(self, *args):
