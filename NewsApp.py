@@ -4,13 +4,17 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.clock import Clock
 from kivy.uix.widget import Widget
-from kivy.uix import button, label
-
+from kivy.uix.switch import Switch
+from kivy.properties import BooleanProperty
 
 class NewsHome(BoxLayout, Widget):
 
     label_text = StringProperty("Hi")
     label_1 = ObjectProperty()
+    
+    # create a property that will be updated when the switch is active or not
+    switch_state = BooleanProperty(False)
+    
 
     def __init__(self, **kwargs):
         '''
@@ -20,8 +24,16 @@ class NewsHome(BoxLayout, Widget):
             The method will be called when the event is dispatched.
         '''
         self.register_event_type('on_test')
-        super(NewsHome, self).__init__(**kwargs)
+        
 
+        super(NewsHome, self).__init__(**kwargs)
+        
+    def on_switch_state(self, *args):
+        if self.ids.switch.active:
+            self.ids.switch_label_state.text = "Switch is ON"
+        else:
+            self.ids.switch_label_state.text = "Switch is OFF"
+    
     # custom event fn.
     def on_test(self, *args):
         self.ids.label_test2.text = ">>>>>>>>>>>>>>"

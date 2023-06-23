@@ -8,6 +8,13 @@
         padding: 20
         spacing: 10
 
+        Switch:
+            id: switch
+            on_touch_down: root.on_switch_state()
+    
+        Label:
+            id: switch_label_state
+            text: ""
         Button:
             text: 'Click Me'
             on_press: root.on_press_callback()
