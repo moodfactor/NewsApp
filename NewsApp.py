@@ -27,6 +27,10 @@ class NewsHome(BoxLayout, Widget):
         
 
         super(NewsHome, self).__init__(**kwargs)
+
+        
+    def textinput_callback(self, value):
+        self.ids.textinput_label_mirror.text = str(value)
         
     def on_switch_state(self, *args):
         if self.ids.switch.active:

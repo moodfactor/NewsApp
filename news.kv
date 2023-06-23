@@ -8,6 +8,15 @@
         padding: 20
         spacing: 10
 
+        TextInput:
+            id: textinput1
+            multiline: False
+            on_focus: root.textinput_callback(self.text)
+
+        Label:
+            id: textinput_label_mirror
+            text: ""
+
         Switch:
             id: switch
             on_touch_down: root.on_switch_state()
