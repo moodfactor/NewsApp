@@ -6,6 +6,14 @@ from kivy.clock import Clock
 from kivy.uix.widget import Widget
 from kivy.uix.switch import Switch
 from kivy.properties import BooleanProperty
+from kivy.uix.button import Button
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.label import Label
+
+letters = ["txt 1", "txt 2", "txt 3", "txt 5", "txt 6"]
+
+class MButton(Button):
+    pass
 
 class NewsHome(BoxLayout, Widget):
 
@@ -17,16 +25,25 @@ class NewsHome(BoxLayout, Widget):
     
 
     def __init__(self, **kwargs):
+        super(NewsHome, self).__init__(**kwargs)
+        
+        for l in letters:
+            s = Screen(name= l)
+            s.add_widget(Label(text=l))
+            self.ids.sm.add_widget(s)
+            self.ids.buttons.add_widget(MButton(text=l))
+
         '''
-            To create an event dispatcher with custom events,
+            To create an event dispatcher buttons
+ with custom events,
             you need to register the name of the event
             in the class and then create a method of the same name.
             The method will be called when the event is dispatched.
         '''
         self.register_event_type('on_test')
-        
 
-        super(NewsHome, self).__init__(**kwargs)
+    class MButton(Button):
+        pass
 
         
     def textinput_callback(self, value):
