@@ -1,58 +1,80 @@
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen, CardTransition, FadeTransition
+from kivy.uix.screenmanager import WipeTransition, Screen, CardTransition, FadeTransition
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+
 
 # Create both screens. Please note the root.manager.current: this is how
 # you can control the ScreenManager from kv. Each screen has by default a
 # property manager that gives you the instance of the ScreenManager used.
-Builder.load_string("""
-<MyW>:
-    ActionBar:
-        pos_hint: {'top': 1}
-        ActionView:
-            
-            use_separator: True
-            ActionPrevious:
-                title: 'News'
-                with_previous: False
-            ActionButton:
-                text: 'Btn0'
-                icon: 'floppy.png'
-            ActionButton:
-                text: 'Btn1'
-            ActionButton:
-                text: 'Btn2'
-            ActionButton:
-                text: 'Btn3'
-            ActionButton:
-                text: 'Btn4'
-            ActionGroup:
-                text: 'Group'
-                ActionButton:
-                    text: 'Btn5'
-                ActionButton:
-                    text: 'Btn6'
-                ActionButton:
-                    text: 'Btn7'
-<MyW1>:
-    Button:
-        id: label1
-        size_hint: .2, .2
-        pos_hint: {'center_x': .5, 'center_y': .5}
-        text: 'B1'
-    
-    Button:
-        id: label2
-        size_hint: .1, .1
-        pos_hint: {'center_x': .1, 'center_y': .1}
-        text: 'B2'
-        
-        """)
 
-class MyW(FloatLayout):
+# Define a string variable to store the kv code
+kv = """
+<MyW>:
+    BoxLayout: 
+        size_hint_y: None
+        height: 30
+        id: buttons
+    
+    # Create a screen manager to switch between screens
+    ScreenManager:
+    # Give an id to the screen manager for easy reference
+        id: sm
+ 
+        
+
+<MButton>:
+    on_press: app.root.ids.sm.current = self.text
+        
+            
+"""
+
+
+# Load the kv code using Builder.load_string()
+Builder.load_string(kv)
+
+# Define a class for the first screen that inherits from FloatLayout
+
+
+class MyW(BoxLayout):
+    def __init__(self, **kwargs):
+        super(MyW, self).__init__(**kwargs)
+
+        # Create a screen with the name "Hello1"
+        s = Screen(name="Hello1")
+        # Add a label with the text "src1" to the screen
+        s.add_widget(Label(text="src1"))
+        # Add the screen to the screen manager
+        self.ids.sm.add_widget(s)
+        # Set the transition type for the screen manager to WipeTransition
+        self.ids.sm.transition = FadeTransition()
+
+        # Create another screen with the name "Hello2"
+        s = Screen(name="Hello2")
+        # Add a label with the text "src2" to the screen
+        s.add_widget(Label(text="src2"))
+        # Add the screen to the screen manager
+        self.ids.sm.add_widget(s)
+        # Set the transition type for the screen manager to WipeTransition
+        self.ids.sm.transition = WipeTransition()
+
+        # Create a button with the text "Hello1"
+        self.ids.buttons.add_widget(MButton(
+        text="Hello1"))
+        # Create another button with the text "Hello2"
+        self.ids.buttons.add_widget(MButton(
+        text="Hello2"))
+
+
+
+# Define a class for the second screen that inherits from FloatLayout
+class MButton(Button):
     pass
 
+# Define a class for the app that inherits from App
 
 
 class New_NewsApp(App):
