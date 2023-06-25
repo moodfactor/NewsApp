@@ -8,23 +8,45 @@ from kivy.uix.floatlayout import FloatLayout
 # property manager that gives you the instance of the ScreenManager used.
 Builder.load_string("""
 <MyW>:
-    Button: 
+    ActionBar:
+        pos_hint: {'top': 1}
+        ActionView:
+            
+            use_separator: True
+            ActionPrevious:
+                title: 'News'
+                with_previous: False
+            ActionButton:
+                text: 'Btn0'
+                icon: 'floppy.png'
+            ActionButton:
+                text: 'Btn1'
+            ActionButton:
+                text: 'Btn2'
+            ActionButton:
+                text: 'Btn3'
+            ActionButton:
+                text: 'Btn4'
+            ActionGroup:
+                text: 'Group'
+                ActionButton:
+                    text: 'Btn5'
+                ActionButton:
+                    text: 'Btn6'
+                ActionButton:
+                    text: 'Btn7'
+<MyW1>:
+    Button:
         id: label1
-        size_hint: .5, .5
+        size_hint: .2, .2
         pos_hint: {'center_x': .5, 'center_y': .5}
-        text: 'B2'
+        text: 'B1'
     
     Button:
         id: label2
         size_hint: .1, .1
-        pos_hint: {'center_x': .1, 'center_y': .1}  
-        text: 'B1'
-    
-    Button:
-        id: label1
-        size_hint: .1, .1
-        pos_hint: {'center_x': .9, 'center_y': .9}  
-        text: 'B3'
+        pos_hint: {'center_x': .1, 'center_y': .1}
+        text: 'B2'
         
         """)
 
