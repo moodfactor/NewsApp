@@ -13,6 +13,8 @@ from kivy.uix.label import Label
 
 # Define a string variable to store the kv code
 kv = """
+#: import sm1 kivy.uix.screenmanager
+
 <MyW>:
     BoxLayout: 
     # set the size_hint_y to -1 so that the height is set automatically
@@ -26,6 +28,7 @@ kv = """
     ScreenManager:
     # Give an id to the screen manager for easy reference
         id: sm
+        transition: sm1.FadeTransition()
  
         
 
@@ -53,7 +56,7 @@ class MyW(BoxLayout):
         # Add the screen to the screen manager
         self.ids.sm.add_widget(s)
         # Set the transition type for the screen manager to WipeTransition
-        self.ids.sm.transition = FadeTransition()
+        # self.ids.sm.transition = FadeTransition()
 
         # Create another screen with the name "Hello2"
         s = Screen(name="Hello2")
@@ -62,7 +65,7 @@ class MyW(BoxLayout):
         # Add the screen to the screen manager
         self.ids.sm.add_widget(s)
         # Set the transition type for the screen manager to WipeTransition
-        self.ids.sm.transition = WipeTransition()
+        # self.ids.sm.transition = WipeTransition()
 
         # Create a button with the text "Hello1"
         self.ids.buttons.add_widget(MButton(
