@@ -15,7 +15,10 @@ from kivy.uix.label import Label
 kv = """
 <MyW>:
     BoxLayout: 
-        size_hint_y: None
+    # set the size_hint_y to -1 so that the height is set automatically
+    # based on the content, and now it takes the whole window
+        
+        size_hint_y: -1
         height: 30
         id: buttons
     
@@ -63,11 +66,10 @@ class MyW(BoxLayout):
 
         # Create a button with the text "Hello1"
         self.ids.buttons.add_widget(MButton(
-        text="Hello1"))
+            text="Hello1"))
         # Create another button with the text "Hello2"
         self.ids.buttons.add_widget(MButton(
-        text="Hello2"))
-
+            text="Hello2"))
 
 
 # Define a class for the second screen that inherits from FloatLayout
