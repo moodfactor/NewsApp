@@ -6,6 +6,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Color, Ellipse, Line, Rectangle, Triangle
+from kivy.graphics.transformation import Matrix
 
 
 
@@ -40,20 +41,42 @@ kv = """
             
         Line: 
             points: 300, 300, 600, 600
+    
+    Button: 
+        id: my_button
+        text: 'Hello world'
+        size_hint: None, None
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        canvas.before:
+            PushMatrix
+            Rotate:
+                angle: 45
+                origin: self.center
+            Translate:
+                xy: self.center_x, self.center_y
+        canvas.after:
+            PopMatrix
 """
 
 Builder.load_string(kv)
 
 
-class MyW(Button):
+class MyW(Widget):
     def __init__(self, **kwargs):
         super(MyW, self).__init__(**kwargs)
-        with self.canvas:
-            self.ellipse = Ellipse(pos=self.pos, size=(10, 10))
+        # with self.canvas:
+        #     self.ellipse = Ellipse(pos=self.pos, size=(10, 10))
+
+        # self.bind(pos=self.update_ellipse)
+        # self.bind(size=self.update_ellipse)
         
-        self.bind(pos=self.update_ellipse)
-        self.bind(size=self.update_ellipse)
-    
+       
+
+    def rotate_button(button, angle):
+        matrix = Matrix()
+        matrix.rotate(angle)
+        button.canvas.before.add(matrix)
+
     def update_ellipse(self, *args):
         self.ellipse.pos = self.pos
         self.ellipse.size = self.size
