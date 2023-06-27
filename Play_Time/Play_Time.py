@@ -10,8 +10,15 @@ from kivy.uix.boxlayout import BoxLayout
 kv = """
 
 <MyW>:
+    # sky blue color
+    background_color: 0, 0, 1, 1 
+    on_touch_down: print("on_touch_down")
     canvas:
-    
+        Color: 
+        # Fuchia color
+            rgb: 1, 0, 1
+      
+               
         Ellipse:
             pos: 0, 0
             size: 50, 50
@@ -20,14 +27,17 @@ kv = """
             
         Rectangle:
             pos: 500, 0
-            size: 50, 50
+            size: 50, 800
+            
+        Rectangle:
+            pos: 0, 500
+            size: 800, 50    
             
         Triangle:
-            points: 100, 0, 200, 300, 0, 300
-            segments: 
+            points: 400, 200, 300, 400, 400, 400
             
         Line: 
-            points: 300, 0, -350, 500
+            points: 300, 300, 600, 600
 """
 
 Builder.load_string(kv)
