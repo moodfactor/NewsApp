@@ -5,6 +5,8 @@ from kivy.lang import Builder
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from kivy.graphics import Color, Ellipse, Line, Rectangle, Triangle
+
 
 
 kv = """
@@ -44,7 +46,17 @@ Builder.load_string(kv)
 
 
 class MyW(Button):
-    pass
+    def __init__(self, **kwargs):
+        super(MyW, self).__init__(**kwargs)
+        with self.canvas:
+            self.ellipse = Ellipse(pos=self.pos, size=(10, 10))
+        
+        self.bind(pos=self.update_ellipse)
+        self.bind(size=self.update_ellipse)
+    
+    def update_ellipse(self, *args):
+        self.ellipse.pos = self.pos
+        self.ellipse.size = self.size
 
 
 class MyApp(App):
