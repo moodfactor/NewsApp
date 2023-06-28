@@ -27,9 +27,9 @@ class MyW(BoxLayout):
         # myatlas is the name of the atlas
         # 642 is the size of the images
         # *.png is the file type of the images
-        
-        btn = Button(text='', background_normal='atlas://myatlas/11',
-                     background_down='atlas://myatlas/33')
+
+        btn = Button(text='', size=(500, 500), background_normal='atlas://myatlas/11',
+                     background_down='atlas://myatlas/33', size_hint=(None, None))
         self.add_widget(btn)
 
 
