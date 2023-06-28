@@ -7,7 +7,8 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Color, Ellipse, Line, Rectangle, Triangle
 from kivy.graphics.transformation import Matrix
-
+from kivy.uix.scatter import Scatter
+from kivy.animation import Animation
 
 
 kv = """
@@ -16,11 +17,17 @@ kv = """
     # sky blue color
     background_color: 0, 0, 1, 1 
     on_touch_down: print("on_touch_down")
+    
+     
     canvas:
         Color: 
         # Fuchia color
             rgb: 1, 0, 1
-      
+  
+    Button:
+        id: button_1
+        text: "Button 1"
+        on_press: root.animate(button_1)    
                
         Ellipse:
             pos: 0, 0
@@ -46,6 +53,7 @@ kv = """
         id: my_button
         text: 'Hello world'
         size_hint: None, None
+
         pos_hint: {'center_x': .5, 'center_y': .5}
         canvas.before:
             PushMatrix
@@ -61,7 +69,7 @@ kv = """
 Builder.load_string(kv)
 
 
-class MyW(Widget):
+class MyW(Button):
     def __init__(self, **kwargs):
         super(MyW, self).__init__(**kwargs)
         # with self.canvas:
@@ -69,8 +77,19 @@ class MyW(Widget):
 
         # self.bind(pos=self.update_ellipse)
         # self.bind(size=self.update_ellipse)
-        
-       
+
+        # but1 = Button(text="Button 1")
+        # scatter = Scatter(size=(400, 400), size_hint=(None, None))
+
+        # scatter.add_widget(but1)
+        # self.add_widget(scatter)
+
+    def animate(self, instance):
+        animation = Animation(pos=(100, 100), t='out_bounce', duration=2)
+        animation += Animation(pos=(200, 100), t='out_bounce', duration=2)
+        animation &= Animation(pos=(500, 500), t='out_bounce', duration=2)
+        animation += Animation(size=(100, 50))
+        animation.start(instance)
 
     def rotate_button(button, angle):
         matrix = Matrix()
