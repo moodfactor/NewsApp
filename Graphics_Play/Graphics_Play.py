@@ -7,6 +7,7 @@ from kivy.uix.carousel import Carousel
 from kivy.factory import Factory
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
+from kivy.atlas import Atlas
 
 
 kv = """
@@ -21,14 +22,15 @@ Builder.load_string(kv)
 class MyW(BoxLayout):
     def __init__(self, **kwargs):
         super(MyW, self).__init__(**kwargs)
-        carousel = Carousel(direction='right')
-        for i in range(3):
-            src = f"f{i}.jpg"
-            image = Factory.AsyncImage(source=src)
-            carousel.add_widget(image)
-            carousel.add_widget(Button(text=f"Button{i}"))
 
-        self.add_widget(carousel)
+        # To create atlas do in terminal: python -m kivy.atlas myatlas 642 *.png
+        # myatlas is the name of the atlas
+        # 642 is the size of the images
+        # *.png is the file type of the images
+        
+        btn = Button(text='', background_normal='atlas://myatlas/11',
+                     background_down='atlas://myatlas/33')
+        self.add_widget(btn)
 
 
 class MyApp(App):
