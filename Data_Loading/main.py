@@ -100,26 +100,41 @@ class MainApp(MDApp):
 
     def get_data(self, *args):
         print("get data ...")
-        t = Thread(target=self.request_data)
-        t.start()
-        t.join()
+        t1 = Thread(target=self.set_user1)
+        t2 = Thread(target=self.set_user2)
+        t1.start()
+        t1.join()
+        t2.start()
+        t2.join()
+        
         print("get data done")
 
     # set the first user
     def set_user1(self, *args):
-        user1 = args[1]
-        self.root.ids.user1.avatar = self.users['user1']['avatar']
-        self.root.ids.user1.name = self.users['user1']['name']
-        self.root.ids.user1.email = self.users['user1']['email']
-        self.root.ids.user1.website = self.users['user1']['website']
+        url = 'https://gist.githubusercontent.com/moodfactor/89a903b8e791e481a2aa452e6b6357cd/raw/ee93251af2cf150154476c638f3219db043561d4/users' 
+        response = requests.get(url)
+        data = response.json()
+        self.users = data['users']
+        self.users1 = self.users['user1']
+        
+        self.root.ids.user1.avatar = self.users1['avatar']
+        self.root.ids.user1.name = self.users1['name']
+        self.root.ids.user1.email = self.users1['email']
+        self.root.ids.user1.website = self.users1['website']
     
     def set_user2(self, *args):
-        user2 = args[1]
-        self.root.ids.user2.avatar = self.users['user2']['avatar']
-        self.root.ids.user2.name = self.users['user2']['name']
-        self.root.ids.user2.email = self.users['user2']['email']
-        self.root.ids.user2.website = self.users['user2']['website']
-    
+        url = 'https://gist.githubusercontent.com/moodfactor/89a903b8e791e481a2aa452e6b6357cd/raw/ee93251af2cf150154476c638f3219db043561d4/users' 
+        response = requests.get(url)
+        data = response.json()
+        self.users = data['users']
+        self.users2 = self.users['user2']
+        
+        self.root.ids.user2.avatar = self.users2['avatar']
+        self.root.ids.user2.name = self.users2['name']
+        self.root.ids.user2.email = self.users2['email']
+        self.root.ids.user2.website = self.users2['website']
+                
+ 
     def get(self):
         """
         Sends the request to the server and returns the response object.
@@ -131,11 +146,11 @@ class MainApp(MDApp):
     def request_data(self, *args):
         url = 'https://gist.githubusercontent.com/moodfactor/89a903b8e791e481a2aa452e6b6357cd/raw/d5cf09e9653f5893ab837193461e3141abbc68ff/users' 
         
-        response = UrlRequest(url).result
+        response = requests.get(url)
         
-        if response.ok:
-            self.set_user1(response.result)
-            self.set_user2(response.result)
+        if response.status_code == 200:
+            self.users = response.json()
+
         else:
             print("Error: {} {}".format(response.status_code, response.error))
         
@@ -147,12 +162,12 @@ class MainApp(MDApp):
         print("error")
         
     def clear_data(self, *args):
-        self.root.ids.user1.avatar = ''
+        self.root.ids.user1.avatar = 'Not Found'
         self.root.ids.user1.name = ''
         self.root.ids.user1.email = ''
         self.root.ids.user1.website = ''
         
-        self.root.ids.user2.avatar = ''
+        self.root.ids.user2.avatar = 'None'
         self.root.ids.user2.name = ''
         self.root.ids.user2.email = ''
         self.root.ids.user2.website = ''
@@ -162,7 +177,6 @@ class MainApp(MDApp):
        # self.make_json_file = json.dumps(self.users)
         '''
         make the json file for def set_user1
-        
         
         '''
         
@@ -180,8 +194,6 @@ class MainApp(MDApp):
             
         }
         }
-        
-        
-
+      
 if __name__ == "__main__":
     MainApp().run()
