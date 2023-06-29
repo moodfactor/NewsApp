@@ -41,24 +41,10 @@ class CustomLayout(FloatLayout):
 
 class MyApp(App):
 
-    def _image_loaded(self, proxyImage):
-        if proxyImage.image.texture:
-            self.image.texture = proxyImage.image.texture
-
     def build(self):
-        proxyImage = Loader.image(
-            "https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")
-        proxyImage.allow_stretch = True
-        proxyImage.keep_ratio = False
-        proxyImage.anim_delay = 0.1
-        proxyImage.anim_loop = True
-        proxyImage.anim_repeat = True
-        proxyImage.loading_image = "R.png"
-        proxyImage.error_image = "R.png"
-        proxyImage.bind(on_load=self._image_loaded)
-        proxyImage.bind(on_error=self._image_loaded)
-        self.image = AsyncImage()
-        return self.image
+        return Label (text='Hello[ref=world][color=0000ff]World[/color][/ref]',markup=True, font_size=80, font_name='DroidSans')
+
+  
 
 
 if __name__ == "__main__":
