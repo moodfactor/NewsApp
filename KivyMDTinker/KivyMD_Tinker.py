@@ -2,25 +2,96 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.toast import toast
 from kivymd.app import MDApp
+from kivy.properties import ListProperty, StringProperty
+from kivymd.color_definitions import colors
+from kivymd.uix.tab import MDTabsBase
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivy.factory import Factory
 
 KV = '''
-MDScreen:
+<Root@MDBoxLayout>
+    orientation: 'vertical'
+    
     MDTopAppBar:
-        title: 'Test Toast'
-        pos_hint: {'bottom': 1}
-        left_action_items: [['menu', lambda x: x]]
-    MDRaisedButton:
-        text: 'TEST KIVY TOAST'
-        pos_hint: {'center_x': .5, 'center_y': .5}
-        on_release: app.show_toast()
+        title: app.title
+        
+    MDTabs:
+        id: android_tabs
+        on_tab_switch: app.on_tab_switch(*args)
+        size_hint_y: None
+        height: "48dp"
+        tab_indicator_anim: False
+        
+    RecycleView:
+        id: rv
+        key_viewclass: 'viewclass'
+        key_size: 'height'
+        
+        RecycleBoxLayout:
+            default_size: None, dp(48)
+            default_size_hint: 1, None
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+
+<ItemColor>
+    size_hint_y: None
+    height: "48dp"
+    
+    MDLabel:
+        text: root.text
+        halign: "center"
+
+
+<Tab>
     '''
     
-class MainApp(MDApp):
-    def build(self):
-        self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "BlueGray"
-        return Builder.load_string(KV)
+class Tab(MDBoxLayout, MDTabsBase):
+    pass
+
+class ItemColor(MDBoxLayout):
+    text = StringProperty() 
+    color = ListProperty()
+
+
     
-    def show_toast(self):
-        toast("Hello World",background = [0.2, 0.5, 1, 1], duration=2.0)
-MainApp().run()
+class MainApp(MDApp):
+    title = "Colors definitions"
+
+    def build(self):
+        
+        Builder.load_string(KV)
+        self.screen = Factory.Root()
+        
+        for name_tab in colors.keys():
+            tab = Tab(title=name_tab)
+            self.screen.ids.android_tabs.add_widget(tab)
+        
+        return self.screen
+    
+    def on_tab_switch(self, instance_tabs,
+                      instance_tab,
+                      instance_tab_label,
+                      tab_text):
+        self.screen.ids.rv.data = []
+        
+        if not tab_text:
+            tab_text = "Red"
+        
+        for value_color in colors[tab_text]:
+            self.screen.ids.rv.data.append({
+                "viewclass": "ItemColor",
+                "md_bg_color": colors[tab_text][value_color],
+                "title": value_color})
+    
+    def on_start(self):
+        self.on_tab_switch(None, None, None, 
+                           self.screen.ids.android_tabs.ids.layout.children[-1].text,)
+
+
+if __name__ == "__main__":
+    MainApp().run()
+    
+    
+
+
