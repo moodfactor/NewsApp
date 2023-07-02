@@ -85,6 +85,7 @@ class MainApp(MDApp):
                 "title": value_color})
     
     def on_start(self):
+        print(type(self.screen))
         self.on_tab_switch(None, None, None, 
                            self.screen.ids.android_tabs.ids.layout.children[-1].text,)
 
