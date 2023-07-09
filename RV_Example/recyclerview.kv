@@ -1,0 +1,22 @@
+<MyCard>:
+    # Define the style and appearance of each card
+    orientation: "vertical"
+    size_hint_y: None
+    height: 200
+    Label:
+        text: "kdjlk" # bind the label text to the data item
+        font_size: 24
+        size_hint_y: 0.2
+    Image:
+        source: "f0.jpg" # bind the image source to the data item
+        allow_stretch: True
+        keep_ratio: False
+
+<MyRecycleView>:
+    viewclass: 'MyCard'
+    RecycleGridLayout:
+        cols: 2 # adjust as needed
+        default_size: None, dp(56)
+        default_size_hint: 0.5, None # adjust as needed
+        size_hint_y: None
+        height: self.minimum_height

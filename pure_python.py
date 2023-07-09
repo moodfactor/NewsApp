@@ -127,15 +127,154 @@ if response.status_code == 200:
 # print("Status code: ", response.status_code)
 # print(response.raise_for_status())
 
-import asyncio
+# import asyncio
 
-async def request_http1():
-    async with httpx.AsyncClient(http2=True) as client:
-        for i in range(2000, 2020):
-            response = await client.get(url=f"https://en.wikipedia.org/wiki/{i}", params = {"year": i}, timeout = 5)
-            print(response.json)
-            print(response.text)
-            print(response.http_version)
+# async def request_http1():
+#     async with httpx.AsyncClient(http2=True) as client:
+#         for i in range(2000, 2020):
+#             response = await client.get(url=f"https://en.wikipedia.org/wiki/{i}", params = {"year": i}, timeout = 5)
+#             print(response.json)
+#             print(response.text)
+#             print(response.http_version)
        
 
-asyncio.run(request_http1())
+# asyncio.run(request_http1())
+
+# from TTS.api import TTS
+
+# model_name = TTS.list_models()[0]
+
+# tts = TTS(model_name)
+
+# # wav = tts.tts("This is a test! This is also a test!!", speaker=tts.speakers[0], language=tts.languages[0])
+# tts.tts_to_file(text="Once upon a time, the King's youngest son became filled with the desire to go abroad, and see the world.", speaker=tts.speakers[3], language=tts.languages[0], file_path="1output.wav")
+
+# speakers = tts.__dict__
+# print(tts.speakers)
+
+# from gtts import gTTS
+# itts = gTTS('اهلا وسهلا يا روجيه', lang='ar', tld='com.ar')
+# print(gTTS.__dict__)
+# itts.save('hello.mp3')
+
+# # Write a function that say Hello + name 5 times
+# def say_hello(name):
+#     for i in range(5):
+#         print(f"Hello {name}")
+
+# say_hello("Rogeh")
+
+# # write a function that accept text input that asks me for my birthday, then it will 
+# # calculate my age 
+# def my_birthday():
+#     birthday = input("Please enter your birthday: ")
+#     current_year = 2023
+#     age = current_year - int(birthday)
+#     print(f"Your age is {age}")
+    
+# my_birthday()
+
+
+# import requests 
+# from bs4 import BeautifulSoup  
+
+# def get_facebook_page(url):
+#     try:
+#         # Get the HTML content from the given URL
+#         response = requests.get(url)
+#         print(response.status_code)
+
+#         # Parse the HTML content
+#         soup = BeautifulSoup(response.text, 'html.parser')
+#         print(response.text)
+
+#         # Find all the tags with class "post" and extract text and date
+#         posts = soup.find_all('div', {'class': 'post'})
+
+#         # Extract text from each post
+#         page_data = []
+#         for post in posts:
+#             post_date = post.find('span', {'class': 'timestamp'}).text
+#             post_content = post.find('div', {'class': 'message'})
+
+#             # Extract text from the message and add to list of page data
+#             if post_content:
+#                 page_data.append({'date': post_date, 'text': post_content.get_text()})
+
+#         return page_data
+#     except Exception as e:
+#         print(f"An error occurred: {e}")
+#         return None
+    
+# get_facebook_page("https://www.facebook.com/ZANLALONY/")
+
+""" from facebook_scraper import get_group_info
+import os
+
+
+import requests
+from bs4 import BeautifulSoup
+
+# Set up the API credentials
+access_token = 'YOUR_ACCESS_TOKEN'
+page_id = 'NintendoSwitch'
+
+# Send a GET request to the Facebook page
+url = f'https://www.facebook.com/{page_id}'
+response = requests.get(url)
+
+# Check if the response code is 200
+if response.status_code == 200:
+    # Parse the HTML content of the page
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Find all the posts on the page
+    posts = soup.find_all('div', class_='post')
+
+    # Iterate through each post and extract the text
+    for post in posts:
+        text = post.find('p').text
+
+        # Extract any links from the post
+        link = post.find('a')
+        if link:
+            link_text = link.text
+            link_url = link.get('href')
+            print(f'Text: {text}\nLinks: {link_text} -> {link_url}')
+ """
+ 
+import requests
+from bs4 import BeautifulSoup
+import re
+
+
+
+def get_latest_news(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser', from_encoding='utf-8')
+
+    # Get the news headlines
+    headlines = soup.find_all('div', 'h3', 'a', class_='imageArticle')
+    print(headlines)
+    # Create a list of news items
+    news_items = []
+    for headline in headlines:
+        news_item = {
+            'title': headline.text,
+            'url': headline.find('a').get('href'),
+            'alt': headline.find('img').get('alt'),
+            'text': headline.find('a').get(re.findall(r'<a.*?>(.*?)</a>', str(headline), flags=re.DOTALL),
+        }
+        news_items.append(news_item)
+
+    s = [x for x in news_items if x['alt']]
+    return news_items
+if __name__ == '__main__':
+    url = 'https://plus.youm7.com'
+    news_items = get_latest_news(url)
+
+    for news_item in news_items:
+        print(f'Title: {news_item["title"]}')
+        print(f'URL: {news_item["url"]}')
+        print(f'Alt: {news_item["alt"]}')
+        print(f'Text: {news_item["text"]}')
