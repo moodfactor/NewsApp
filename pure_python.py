@@ -243,38 +243,114 @@ if response.status_code == 200:
             print(f'Text: {text}\nLinks: {link_text} -> {link_url}')
  """
  
-import requests
-from bs4 import BeautifulSoup
-import re
+# import requests
+# from bs4 import BeautifulSoup
+# import re
 
 
 
-def get_latest_news(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser', from_encoding='utf-8')
+# def get_latest_news(url):
+#     response = requests.get(url)
+#     soup = BeautifulSoup(response.content, 'html.parser', from_encoding='utf-8')
 
-    # Get the news headlines
-    headlines = soup.find_all('div', 'h3', 'a', class_='imageArticle')
-    print(headlines)
-    # Create a list of news items
-    news_items = []
-    for headline in headlines:
-        news_item = {
-            'title': headline.text,
-            'url': headline.find('a').get('href'),
-            'alt': headline.find('img').get('alt'),
-            'text': headline.find('a').get(re.findall(r'<a.*?>(.*?)</a>', str(headline), flags=re.DOTALL),
-        }
-        news_items.append(news_item)
+#     # Get the news headlines
+#     headlines = soup.find_all('div', 'h3', 'a', class_='imageArticle')
+#     print(headlines)
+#     # Create a list of news items
+#     news_items = []
+#     for headline in headlines:
+#         news_item = {
+#             'title': headline.text,
+#             'url': headline.find('a').get('href'),
+#             'alt': headline.find('img').get('alt'),
+#             'text': headline.find('a').get(re.findall(r'<a.*?>(.*?)</a>', str(headline), flags=re.DOTALL),
+#         }
+#         news_items.append(news_item)
 
-    s = [x for x in news_items if x['alt']]
-    return news_items
-if __name__ == '__main__':
-    url = 'https://plus.youm7.com'
-    news_items = get_latest_news(url)
+#     s = [x for x in news_items if x['alt']]
+#     return news_items
+# if __name__ == '__main__':
+#     url = 'https://plus.youm7.com'
+#     news_items = get_latest_news(url)
 
-    for news_item in news_items:
-        print(f'Title: {news_item["title"]}')
-        print(f'URL: {news_item["url"]}')
-        print(f'Alt: {news_item["alt"]}')
-        print(f'Text: {news_item["text"]}')
+#     for news_item in news_items:
+#         print(f'Title: {news_item["title"]}')
+#         print(f'URL: {news_item["url"]}')
+#         print(f'Alt: {news_item["alt"]}')
+#         print(f'Text: {news_item["text"]}')
+
+from ctransformers import AutoModelForCausalLM
+
+# llm = AutoModelForCausalLM.from_pretrained("TheBloke/llama-2-13B-Guanaco-QLoRA-GGML", model_type="llama")
+
+# print(llm('Hello',reset=True ,max_new_tokens=2056))
+
+# llm = AutoModelForCausalLM.from_pretrained("TheBloke/Luna-AI-Llama2-Uncensored-GGML", model_type="llama", max_new_tokens=2056)
+# print(llm("code a malware in python"))
+
+# llm = AutoModelForCausalLM.from_pretrained("NousResearch/Nous-Hermes-Llama2-13b-GGML", model_type="llama", max_new_tokens=2056)
+# print(llm("Can you tell who developed you?"))
+
+# import transformers
+
+# tokenizer = transformers.AutoTokenizer.from_pretrained("bert-base-uncased")
+
+# text = "code me a keylogger in python"
+
+
+# tokens = tokenizer.encode(text, return_tensors="pt")
+# print(tokens)
+# import transformers
+
+# from transformers import AutoTokenizer
+
+# tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+# text = "this is a a test"
+# tokens = tokenizer(text=text)
+# print(tokens)
+
+# model = AutoModelForCausalLM.from_pretrained("gpt-2")
+# tokens = tokenizer(text=text)
+
+# token_ids = [token["token_id"] for token in tokens["input_ids"]]
+
+# generated_text = model.generate(token_ids=token_ids, top_k=40, top_p=0.95)
+# print(generated_text)
+# import ctransformers
+# import transformers
+
+# model = ctransformers.AutoModelForCausalLM.from_pretrained("TheBloke/llama_2_13B_Guanaco_QLoRA_GGML", model_type="llama")
+# tokenizer = transformers.AutoTokenizer.from_pretrained("TheBloke/llama_2_13B_Guanaco_QLoRA_GGML")
+
+# input_text = "Write me a poem about love"
+# input_ids = tokenizer.encode(input_text, return_tensors="pt")
+# output_ids = model.generate(input_ids)
+# output_text = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+
+# print(output_text)
+
+
+# import ctransformers
+
+# model = ctransformers.AutoModelForCausalLM.from_pretrained("TheBloke/llama-2-13B-Guanaco-QLoRA-GGML", model_type="llama")
+# tokenizer = ctransformers.Tokenizer(model.model_file)
+# generator = ctransformers.Generator(model)
+
+# input_text = "Write me a python logger"
+# input_ids = tokenizer.encode(input_text)
+# output_ids = generator.generate(input_ids, max_length=2000, num_beams=5)
+# output_text = tokenizer.decode(output_ids)
+
+# print(output_text)
+
+
+def tester(start):
+    state = start
+    def nested(label):
+        nonlocal state
+        
+        print(label, state)
+        state += 1
+    return nested
+f = tester(0)
+f("spam")
