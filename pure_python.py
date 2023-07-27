@@ -344,13 +344,18 @@ from ctransformers import AutoModelForCausalLM
 # print(output_text)
 
 
-def tester(start):
-    state = start
-    def nested(label):
-        nonlocal state
+# def tester(start):
+#     state = start
+#     def nested(label):
+#         nonlocal state
         
-        print(label, state)
-        state += 1
-    return nested
-f = tester(0)
-f("spam")
+#         print(label, state)
+#         state += 1
+#     return nested
+# f = tester(0)
+# f("spam")
+
+def low_it(word):
+    return str(word).lower()
+
+print(low_it("Red"))

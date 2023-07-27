@@ -1,6 +1,6 @@
 import flet as ft
 import time
-
+import os
 
 
 def main(page: ft.Page):
@@ -56,7 +56,7 @@ def main(page: ft.Page):
     my_row = ft.Ref[ft.Row]()
     
     def button_clicked1(e):
-        output_text.current.value = f"Dropdown value is: {color_dropdown.value}"
+        output_text.current.value = f"Dropdown value is: {color_dropdown.current.value}"
         page.update()
         
     # page.controls.append(ft.Row(ref=my_row,controls= [
@@ -71,12 +71,29 @@ def main(page: ft.Page):
             ft.dropdown.Option("Green"),
             ft.dropdown.Option("Blue"),], ref=color_dropdown),
         ft.ElevatedButton(text="Submit", on_click=button_clicked1, ref=submit_button),
-        ft.Text(value="xerAW Mood!", ref=output_text),
+        ft.Text(value="", ref=output_text, bgcolor = f'{color_dropdown.current.value}', width = 300),
     ]))
+   
     
-
+    def grid_items(r: ft.Row):
+        for i in range(500):
+            r.controls.append(
+                ft.Container(
+                    ft.Text(f" الله أكبر {i+1}"),
+                        width=100,
+                        height=100,
+                        alignment=ft.alignment.center,
+                        bgcolor=ft.colors.RED,
+                        border=ft.border.all(1, ft.colors.AMBER_400),
+                        border_radius=ft.border_radius.all(5),
+            )
+        )
+        return r.controls
     
+    my_grid_view = ft.Row()
+    page.controls.append(ft.Row(ref=my_grid_view,controls= grid_items(my_grid_view), wrap=True, scroll="always", expand= True))
     
+    page.scroll = "always"
     page.update()
 
 ft.app(target=main)
