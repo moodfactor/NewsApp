@@ -76,7 +76,7 @@ def main(page: ft.Page):
    
     
     def grid_items(r: ft.Row):
-        for i in range(500):
+        for i in range(10):
             r.controls.append(
                 ft.Container(
                     ft.Text(f" الله أكبر {i+1}"),
@@ -86,14 +86,79 @@ def main(page: ft.Page):
                         bgcolor=ft.colors.RED,
                         border=ft.border.all(1, ft.colors.AMBER_400),
                         border_radius=ft.border_radius.all(5),
+                
             )
+                
         )
         return r.controls
     
     my_grid_view = ft.Row()
-    page.controls.append(ft.Row(ref=my_grid_view,controls= grid_items(my_grid_view), wrap=True, scroll="always", expand= True))
+    page.controls.append(ft.Row(ref=my_grid_view,controls= grid_items(my_grid_view), wrap=True,scroll="always", expand= 10, width=1000))
+    
+    
+    page.clean() 
+
+    my_image = ft.Image(src= "/home/mood/Documents/NewsApp/MyMeditationApp/i.jpg",fit="contain", width=100, height=100)
+    page.add(my_image)
+
+    page.title = "Drag and Drop example"
+
+    def drag_accept(e):
+        # get draggable (source) control by its ID
+        src = page.get_control(e.src_id)
+        # update text inside draggable control
+        src.content.content.value = "0"
+        # update text inside drag target control
+        e.control.content.content.value = "1"
+        page.update()
+
+    page.add(
+        ft.Row(
+            [
+                ft.Draggable(
+                    group="number",
+                    content=ft.Container(
+                        width=50,
+                        height=50,
+                        bgcolor=ft.colors.CYAN_200,
+                        border_radius=5,
+                        content=ft.Text("1", size=20),
+                        alignment=ft.alignment.center,
+                    ),
+                ),
+                ft.Container(width=100),
+                ft.DragTarget(
+                    group="number",
+                    content=ft.Container(
+                        width=50,
+                        height=50,
+                        bgcolor=ft.colors.PINK_200,
+                        border_radius=5,
+                        content=ft.Text("0", size=20),
+                        alignment=ft.alignment.center,
+                    ),
+                    on_accept=drag_accept,
+                ),
+            ]
+        )
+    ) 
+
+    page.clean()
+    
+    page.add(ft.Text(f"Initial route: {page.route}"))
+    
+    def route_change(e: ft.RouteChangeEvent):
+        page.add(ft.Text(f"Route changed to: {e.route}"))
+    
+    def go_store(e):
+        page.route = "/store"
+        page.update()
+        
+    page.on_route_change = route_change
+    page.add(ft.ElevatedButton("Go to Store", on_click=go_store))
+        
     
     page.scroll = "always"
     page.update()
 
-ft.app(target=main)
+ft.app(target=main, view=ft.AppView.WEB_BROWSER)
