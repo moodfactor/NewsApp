@@ -77,7 +77,7 @@ def main(page: Page):
         ),
     )
 
-    i = flet.Image(src="https://picsum.photos/150/150", width=150, height=150)
+    i = flet.Image(src="https://picsum.photos/150/150", width=500, height=500)
 
     page.add(i)
 
@@ -90,6 +90,18 @@ def main(page: Page):
     
     colors = page.client_storage.get("favorite_colors")
     print(colors)
+    
+    import os
+    from flet.security import encrypt, decrypt
+    
+    secret_key = os.getenv("MY_APP_SECRET_KEY")
+    
+    plain_text = "This is a secret message"
+    encrypted_text = encrypt(plain_text, secret_key)
+    print(encrypted_text)
+    decrypted_text = decrypt(encrypted_text, secret_key)
+    print(decrypted_text)
+    
 
     page.update()
 
