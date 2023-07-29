@@ -147,16 +147,52 @@ def main(page: ft.Page):
     
     page.add(ft.Text(f"Initial route: {page.route}"))
     
-    def route_change(e: ft.RouteChangeEvent):
+    def route_change1(e: ft.RouteChangeEvent):
         page.add(ft.Text(f"Route changed to: {e.route}"))
     
     def go_store(e):
         page.route = "/store"
         page.update()
         
-    page.on_route_change = route_change
+    page.on_route_change = route_change1
     page.add(ft.ElevatedButton("Go to Store", on_click=go_store))
-        
+    
+  
+    
+    page.title = "Routes Example"
+
+    def route_change(route):
+        page.views.clear()
+        page.views.append(
+            ft.View(
+                "/",
+                [
+                    ft.AppBar(title=ft.Text("Flet app"), bgcolor=ft.colors.SURFACE_VARIANT),
+                    ft.ElevatedButton("Visit Store", on_click=lambda _: page.go("/store")),
+                ],
+            )
+        )
+        if page.route == "/store":
+            page.views.append(
+                ft.View(
+                    "/store",
+                    [
+                        ft.AppBar(title=ft.Text("Store"), bgcolor=ft.colors.SURFACE_VARIANT),
+                        ft.ElevatedButton("Go Home", on_click=lambda _: page.go("/")),
+                    ],
+                )
+            )
+        page.update()
+
+    def view_pop(view):
+        page.views.pop()
+        top_view = page.views[-1]
+        page.go(top_view.route)
+
+    page.on_route_change = route_change
+    page.on_view_pop = view_pop
+    page.go(page.route)
+
     
     page.scroll = "always"
     page.update()

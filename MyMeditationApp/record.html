@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Record</title>
+    <!-- Use Bootstrap CDN for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Record</h1>
+        <!-- Display the screenshot -->
+        <img src="output.png" alt="Screenshot" class="img-fluid">
+        <!-- Display the keyboard events -->
+        <ul class="list-group">
+            {% for event in events %}
+            <li class="list-group-item">{{ event }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+
