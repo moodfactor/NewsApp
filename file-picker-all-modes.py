@@ -1,4 +1,4 @@
-import flet
+import flet as ft
 from flet import (
     ElevatedButton,
     FilePicker,
@@ -77,7 +77,7 @@ def main(page: Page):
         ),
     )
 
-    i = flet.Image(src="https://picsum.photos/150/150", width=500, height=500)
+    i = ft.Image(src="https://picsum.photos/150/150", width=500, height=500)
 
     page.add(i)
 
@@ -91,19 +91,40 @@ def main(page: Page):
     colors = page.client_storage.get("favorite_colors")
     print(colors)
     
-    import os
-    from flet.security import encrypt, decrypt
+    # import os
+    # from flet.security import encrypt, decrypt
     
-    secret_key = os.getenv("MY_APP_SECRET_KEY")
+    # secret_key = os.getenv("MY_APP_SECRET_KEY")
     
-    plain_text = "This is a secret message"
-    encrypted_text = encrypt(plain_text, secret_key)
-    print(encrypted_text)
-    decrypted_text = decrypt(encrypted_text, secret_key)
-    print(decrypted_text)
+    # plain_text = "This is a secret message"
+    # encrypted_text = encrypt(plain_text, secret_key)
+    # print(encrypted_text)
+    # decrypted_text = decrypt(encrypted_text, secret_key)
+    # print(decrypted_text)
+   
+    page.clean()
     
-
+    page.title = "Flet Chat"
+    
+    messages = ft.Column()
+    
+    def on_message(msg):
+        messages.controls.append(ft.Text(msg))
+        page.update()
+        
+    page.pubsub.subscribe(on_message)
+    
+    def send_click(e):
+        page.pubsub.send_all(f"{user.value}: {message.value}")
+        
+        message.value = ""
+        page.update()
+        
+    user = ft.TextField(hint_text="Your name", width=150)
+    message = ft.TextField(hint_text="Your message...", expand=True)
+    send = ft.ElevatedButton("Send", on_click=send_click)
+    page.add(messages, ft.Row(controls=[user, message, send]))
     page.update()
 
 
-flet.app(target=main)
+ft.app(target=main, view = ft.AppView.WEB_BROWSER)
